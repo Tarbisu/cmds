@@ -1,10 +1,5 @@
 const Discord = require("discord.js");
 const snekfetch = require("snekfetch");
-const players = "https://en106.grepolis.com/data/players.txt";
-const alliancesFight = "https://en106.grepolis.com/data/alliance_kills_all.txt";
-const alliancesDef = "https://en106.grepolis.com/data/alliance_kills_def.txt";
-const alliancesAtt = "https://en106.grepolis.com/data/alliance_kills_att.txt";
-const alliance = "https://en106.grepolis.com/data/alliances.txt";
 const Data = require("./Data.js");
 
 
@@ -16,12 +11,16 @@ return row.split(",");
 	});
 };
 
-	snekfetch.get(alliance).then(r => { let allianceData = csvToArray(r.text);
-	snekfetch.get(alliancesFight).then(t => { let allianceFightData = csvToArray(t.text);
-	snekfetch.get(alliancesDef).then(t => { let allianceDefData = csvToArray(t.text);
-	snekfetch.get(alliancesAtt).then(t => { let allianceAttData = csvToArray(t.text);
-
 	module.exports.run = async(bot, message, args) => {
+		let aData = Data.allianceData;
+		allianceData = aData.allianceData;
+		let afData = Data.allianceFightData;
+		allianceFightData = afData.allianceFightData;
+		let aaData = Data.allianceAttData;
+		allianceAttData = aaData.allianceAttData;
+		let adData = Data.allianceDefData;
+		allianceDefData = adData.allianceDefData;
+
 
 	 								allianceData.sort(function(a,b) {
 	 									return a[0]-b[0]
@@ -114,11 +113,6 @@ return row.split(",");
 	 }
 	}
 
-	} );
-	} );
-	} );
-
-	} );
 module.exports.help = {
   name: "T12AllianceData"
 }

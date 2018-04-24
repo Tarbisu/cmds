@@ -1,13 +1,5 @@
 const Discord = require("discord.js");
 const snekfetch = require("snekfetch");
-const players = "https://en106.grepolis.com/data/players.txt";
-const alliancesFight = "https://en106.grepolis.com/data/alliance_kills_all.txt";
-const alliancesDef = "https://en106.grepolis.com/data/alliance_kills_def.txt";
-const alliancesAtt = "https://en106.grepolis.com/data/alliance_kills_att.txt";
-const alliances = "https://en106.grepolis.com/data/alliances.txt";
-const conquestData = "https://en106.grepolis.com/data/conquers.txt";
-const town = "https://en106.grepolis.com/data/towns.txt";
-const island = "https://en106.grepolis.com/data/islands.txt";
 const Data = require("./Data.js");
 
 
@@ -19,16 +11,25 @@ return row.split(",");
 };
 
 
-	snekfetch.get(players).then(r => { let playerData = csvToArray(r.text);
-	snekfetch.get(alliances).then(r => { let allianceData = csvToArray(r.text);
-	snekfetch.get(alliancesFight).then(t => { let allianceFightData = csvToArray(t.text);
-	snekfetch.get(alliancesDef).then(t => { let allianceDefData = csvToArray(t.text);
-	snekfetch.get(alliancesAtt).then(t => { let allianceAttData = csvToArray(t.text);
-	snekfetch.get(conquestData).then(t => {let conquestData = csvToArray(t.text);
-	snekfetch.get(town).then(r => { let townData = csvToArray(r.text);
-	snekfetch.get(island).then(r => { let islandData = csvToArray(r.text);
-
 	module.exports.run = async(bot, message, args) => {
+		let pData = Data.playerData;
+		playerData = pData.playerData;
+		let aData = Data.allianceData;
+		allianceData = aData.allianceData;
+		let afData = Data.allianceFightData;
+		allianceFightData = afData.allianceFightData;
+		let aaData = Data.allianceAttData;
+		allianceAttData = aaData.allianceAttData;
+		let adData = Data.allianceDefData;
+		allianceDefData = adData.allianceDefData;
+		let cData = Data.conquestData;
+		conquestData = cData.conquestData;
+		let tData = Data.townData;
+		townData = tData.townData;
+		let iData = Data.islandData;
+		islandData = iData.islandData;
+
+
 		var test =  message.content;
 		function getSecondPart(str) {
     return str.split(' ')[1];
@@ -150,7 +151,7 @@ return row.split(",");
 
 
 }
-});});});});});});});});
+
 
 module.exports.help = {
   name: "AllianceData"

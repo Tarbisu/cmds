@@ -35,14 +35,14 @@ function difference(a,b ){
 	module.exports.run = async(bot, message, args) => {
 		let pData = Data.playerData;
 		playerData = pData.playerData;
-		let aData = Data.allianceData;
-		allianceData = aData.allianceData;
-		let afData = Data.allianceFightData;
-		allianceFightData = afData.allianceFightData;
-		let aaData = Data.allianceAttData;
-		allianceAttData = aaData.allianceAttData;
-		let adData = Data.allianceDefData;
-		allianceDefData = adData.allianceDefData;
+		let aData = Data.playerData;
+		allianceData = aData.playerData;
+		let pfData = Data.playerFightData;
+		playerFightData = pfData.playerFightData;
+		let paData = Data.playerAttData;
+		playerAttData = paData.playerAttData;
+		let pdData = Data.playerDefData;
+		playerDefData = pdData.playerDefData;
 		let cData = Data.conquestData;
 		conquestData = cData.conquestData;
 

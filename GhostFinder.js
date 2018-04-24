@@ -1,7 +1,5 @@
 const Discord = require("discord.js");
 const snekfetch = require("snekfetch");
-const town = "https://en106.grepolis.com/data/towns.txt";
-const island = "https://en106.grepolis.com/data/islands.txt";
 const fs = require("fs");
 const Data = require("./Data.js");
 
@@ -26,10 +24,14 @@ function calcHypotenuse(a, b) {
   return(Math.sqrt((a * a) + (b * b)));
 }
 
-snekfetch.get(town).then(r => { let townData = csvToArray(r.text);
-snekfetch.get(island).then( r=> {let islandData = csvToArray(r.text);
 
 module.exports.run = async(bot, message, args) => {
+  let tData = Data.townData;
+  townData = tData.townData;
+  let iData = Data.islandData;
+  islandData = iData.islandData;
+
+
   var test =  message.content;
   function getSecondPart(str) {
   str = str.split(' ')[1];
@@ -181,8 +183,6 @@ for (var i = 0; i < 5; i++) {
 
 }
 
-});
-});
 
 module.exports.help = {
   name: "GhostFinder"

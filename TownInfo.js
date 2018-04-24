@@ -18,7 +18,6 @@ module.exports.run = async(bot, message, args) => {
 	let aData = Data.allianceData;
 	allianceData = aData.allianceData;
 
-	console.log(townData);
   var test =  message.content;
   function getSecondPart(str) {
   return str.split(' ')[1];

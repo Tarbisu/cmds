@@ -19,8 +19,12 @@ return row.split(",");
 	});
 };
 
-module.exports.run = async(bot, message, args) => {
-	let msg = await message.channel.send("Loading...");
+
+	module.exports.run = async(bot, message, args) => {
+			if (!message.guild.channels.exists("name", "bot-updates")) {
+					makeChannel(message);
+				}
+	let msg = await message.guild.channels.find("name", "bot-updates").send("Loading...");
 	let playerFightData = csvToArray((await snekfetch.get(playersFight)).text);
 	let playerDefData = csvToArray((await snekfetch.get(playersDef)).text)
 	let playerAttData = csvToArray((await snekfetch.get(playersAtt)).text);
@@ -46,8 +50,15 @@ module.exports.run = async(bot, message, args) => {
 	module.exports.allianceAttData = {allianceAttData}
 
 	msg.delete();
-	message.channel.send("Loaded!");
-}
+	message.guild.channels.find("name", "bot-updates").send("Re-Loaded Data!");
+
+			function makeChannel(message){
+    		var server = message.guild;
+    		var name = "bot-updates";
+
+    		server.createChannel(name, "text");
+			}
+	}
 
 
 

@@ -22,11 +22,12 @@ function sortFunction(a, b) {
     }
 }
 
-snekfetch.get(players).then(r => { let playerData = csvToArray(r.text);
-snekfetch.get(alliances).then(r => { let allianceData = csvToArray(r.text);
-
-
 module.exports.run = async(bot, message, args) => {
+	let pData = Data.playerData;
+	playerData = pData.playerData;
+	let aData = Data.allianceData;
+	allianceData = aData.allianceData;
+
 	var alliance = [];
   var test =  message.content;
   test = test.split(' ');
@@ -131,7 +132,6 @@ module.exports.run = async(bot, message, args) => {
 
 }}
 
-});});
 
 module.exports.help = {
   name: "MoraleCalcA"

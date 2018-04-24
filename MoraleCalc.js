@@ -11,10 +11,10 @@ return row.split(",");
 	});
 };
 
-snekfetch.get(players).then(r => { let playerData = csvToArray(r.text);
-
 
 module.exports.run = async(bot, message, args) => {
+	let pData = Data.playerData;
+	playerData = pData.playerData;
 
   var test =  message.content;
   test = test.split(' ');
@@ -109,7 +109,7 @@ module.exports.run = async(bot, message, args) => {
 
 
 
-});
+
 
 module.exports.help = {
   name: "MoraleCalc"
