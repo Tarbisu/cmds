@@ -1,8 +1,6 @@
 const Discord = require("discord.js");
 const snekfetch = require("snekfetch");
-const town = "https://en106.grepolis.com/data/towns.txt";
-const players = "https://en106.grepolis.com/data/players.txt";
-const alliance = "https://en106.grepolis.com/data/alliances.txt";
+const Data = require("./Data.js");
 
 function csvToArray (data) {
 rows = data.split("\n");
@@ -12,12 +10,15 @@ return row.split(",");
 };
 
 
-snekfetch.get(alliance).then(r => { let allianceData = csvToArray(r.text);
-snekfetch.get(players).then(r => { let playerData = csvToArray(r.text);
-snekfetch.get(town).then(r => { let townData = csvToArray(r.text);
-
-
 module.exports.run = async(bot, message, args) => {
+	let tData = Data.townData;
+	townData = tData.townData;
+	let pData = Data.playerData;
+	playerData = pData.playerData;
+	let aData = Data.allianceData;
+	allianceData = aData.allianceData;
+
+	console.log(townData);
   var test =  message.content;
   function getSecondPart(str) {
   return str.split(' ')[1];
@@ -58,7 +59,6 @@ module.exports.run = async(bot, message, args) => {
 		TownInfo[2] = ["No Alliance", "No Alliance"];
 	}
 
-	console.log(TownInfo);
   TownInfo[1][1] = TownInfo[1][1].replace(/[+]/g, " ");
   TownInfo[1][1] = TownInfo[1][1].replace(/%27/g, "'");
   TownInfo[2][1] = TownInfo[2][1].replace(/[+]/g, " ");
@@ -115,7 +115,6 @@ module.exports.run = async(bot, message, args) => {
 }
 
 
- });});});
 
 module.exports.help = {
   name: "TownInfo"

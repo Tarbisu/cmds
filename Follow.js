@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const snekfetch = require("snekfetch");
 const fs = require("fs");
+const Data = require("./Data.js");
 const players = "https://en106.grepolis.com/data/players.txt";
 const alliance = "https://en106.grepolis.com/data/alliances.txt";
 const alliancesFight = "https://en106.grepolis.com/data/alliance_kills_all.txt";
@@ -109,6 +110,8 @@ module.exports.run = async(bot, message, args) => {
 			playerDBP: playerDBP,
 			playerABP: playerABP
 		});
+} else {
+
 }
 
 }

@@ -19,21 +19,36 @@ return row.split(",");
 	});
 };
 
-
-
 module.exports.run = async(bot, message, args) => {
-	let playersFightData = csvToArray((await snekfetch.get(playersFight)).text);
-	let playersDefData = csvToArray((await snekfetch.get(playersDef)).text)
-	let playersAttData = csvToArray((await snekfetch.get(playersAtt)).text);
+	let msg = await message.channel.send("Loading...");
+	let playerFightData = csvToArray((await snekfetch.get(playersFight)).text);
+	let playerDefData = csvToArray((await snekfetch.get(playersDef)).text)
+	let playerAttData = csvToArray((await snekfetch.get(playersAtt)).text);
 	let conquestData = csvToArray((await snekfetch.get(conquest)).text);
-	let townData =  csvToArray((await snekfetch.get(town)).text);
-	let islandDatas = csvToArray((await snekfetch.get(island)).text);
+	let islandData = csvToArray((await snekfetch.get(island)).text);
 	let playerData = csvToArray((await snekfetch.get(players)).text);
 	let allianceAttData = csvToArray((await snekfetch.get(allianceAtt)).text);
 	let allianceDefData = csvToArray((await snekfetch.get(allianceDef)).text);
 	let allianceFightData = csvToArray((await snekfetch.get(allianceFight)).text);
+	let townData = csvToArray((await snekfetch.get(town)).text);
 	let allianceData = csvToArray((await snekfetch.get(alliance)).text);
+
+	module.exports.townData = {townData}
+	module.exports.islandData = {islandData}
+	module.exports.conquestData = {conquestData}
+	module.exports.playerData = {playerData}
+	module.exports.playerFightData = {playerFightData}
+	module.exports.playerAttData = {playerAttData}
+	module.exports.playerDefData = {playerDefData}
+	module.exports.allianceData = {allianceData}
+	module.exports.allianceFightData = {allianceFightData}
+	module.exports.allianceDefData = {allianceDefData}
+	module.exports.allianceAttData = {allianceAttData}
+
+	msg.delete();
+	message.channel.send("Loaded!");
 }
+
 
 
 

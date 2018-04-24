@@ -8,6 +8,7 @@ const alliances = "https://en106.grepolis.com/data/alliances.txt";
 const conquestData = "https://en106.grepolis.com/data/conquers.txt";
 const town = "https://en106.grepolis.com/data/towns.txt";
 const island = "https://en106.grepolis.com/data/islands.txt";
+const Data = require("./Data.js");
 
 
 function csvToArray (data) {

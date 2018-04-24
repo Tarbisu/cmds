@@ -2,6 +2,8 @@ const Discord = require("discord.js");
 const snekfetch = require("snekfetch");
 const players = "https://en106.grepolis.com/data/players.txt";
 const alliances = "https://en106.grepolis.com/data/alliances.txt";
+const Data = require("./Data.js");
+
 
 function csvToArray (data) {
 rows = data.split("\n");

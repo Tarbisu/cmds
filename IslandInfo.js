@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const snekfetch = require("snekfetch");
 const fs = require("fs");
-// var data = require("./Data");
+const Data = require("./Data.js");
 const island = "https://en106.grepolis.com/data/islands.txt";
 const town = "https://en106.grepolis.com/data/towns.txt";
 const players = "https://en106.grepolis.com/data/players.txt";
@@ -16,7 +16,7 @@ return row.split(",");
 };
 
 
-// snekfetch.get(island).then(r => {let islandData = csvToArray(r.text);
+snekfetch.get(island).then(r => {let islandData = csvToArray(r.text);
 snekfetch.get(alliance).then(r => { let allianceData = csvToArray(r.text);
 snekfetch.get(players).then(r => { let playerData = csvToArray(r.text);
 snekfetch.get(town).then(r => { let townData = csvToArray(r.text);
@@ -137,7 +137,7 @@ module.exports.run = async(bot, message, args) => {
 
  }
 
- // });
+ });
 });});});
 
 module.exports.help = {

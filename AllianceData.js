@@ -5,6 +5,7 @@ const alliancesFight = "https://en106.grepolis.com/data/alliance_kills_all.txt";
 const alliancesDef = "https://en106.grepolis.com/data/alliance_kills_def.txt";
 const alliancesAtt = "https://en106.grepolis.com/data/alliance_kills_att.txt";
 const alliance = "https://en106.grepolis.com/data/alliances.txt";
+const Data = require("./Data.js");
 
 
 

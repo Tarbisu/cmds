@@ -1,11 +1,6 @@
 const Discord = require("discord.js");
 const snekfetch = require("snekfetch");
-const players = "https://en106.grepolis.com/data/players.txt";
-const playersFight = "https://en106.grepolis.com/data/player_kills_all.txt";
-const playersDef = "https://en106.grepolis.com/data/player_kills_def.txt";
-const playersAtt = "https://en106.grepolis.com/data/player_kills_att.txt";
-const alliance = "https://en106.grepolis.com/data/alliances.txt";
-const conquestData = "https://en106.grepolis.com/data/conquers.txt";
+const Data = require("./Data.js");
 
 
 function csvToArray (data) {
@@ -36,15 +31,20 @@ function difference(a,b ){
 	}
 
 }
-snekfetch.get(alliance).then(r => { let allianceData = csvToArray(r.text);
-snekfetch.get(players).then(r => { let playerData = csvToArray(r.text);
-snekfetch.get(playersFight).then(t => { let playerFightData = csvToArray(t.text);
-snekfetch.get(playersDef).then(t => { let playerDefData = csvToArray(t.text);
-snekfetch.get(playersAtt).then(t => { let playerAttData = csvToArray(t.text);
-snekfetch.get(conquestData).then(t => {let conquestData = csvToArray(t.text);
 
 	module.exports.run = async(bot, message, args) => {
-
+		let pData = Data.playerData;
+		playerData = pData.playerData;
+		let aData = Data.allianceData;
+		allianceData = aData.allianceData;
+		let afData = Data.allianceFightData;
+		allianceFightData = afData.allianceFightData;
+		let aaData = Data.allianceAttData;
+		allianceAttData = aaData.allianceAttData;
+		let adData = Data.allianceDefData;
+		allianceDefData = adData.allianceDefData;
+		let cData = Data.conquestData;
+		conquestData = cData.conquestData;
 
 		var test;
 		test =  message.content;
@@ -259,7 +259,7 @@ var counter = parseInt(second[0][0]);
 
 
 }
-});});});});});});
+
 
 module.exports.help = {
   name: "CompareP"

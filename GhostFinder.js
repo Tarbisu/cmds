@@ -3,6 +3,8 @@ const snekfetch = require("snekfetch");
 const town = "https://en106.grepolis.com/data/towns.txt";
 const island = "https://en106.grepolis.com/data/islands.txt";
 const fs = require("fs");
+const Data = require("./Data.js");
+
 
 function csvToArray (data) {
 rows = data.split("\n");

@@ -6,6 +6,8 @@ const playersDef = "https://en106.grepolis.com/data/player_kills_def.txt";
 const playersAtt = "https://en106.grepolis.com/data/player_kills_att.txt";
 const alliance = "https://en106.grepolis.com/data/alliances.txt";
 const conquestData = "https://en106.grepolis.com/data/conquers.txt";
+const Data = require("./Data.js");
+
 
 
 function csvToArray (data) {
@@ -14,8 +16,6 @@ return rows.map(function (row) {
 return row.split(",");
 	});
 };
-
-
 
 
 	module.exports.run = async(bot, message, args) => {
