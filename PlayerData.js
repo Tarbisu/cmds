@@ -1,10 +1,5 @@
 const Discord = require("discord.js");
 const snekfetch = require("snekfetch");
-const players = "https://en106.grepolis.com/data/players.txt";
-const playersFight = "https://en106.grepolis.com/data/player_kills_all.txt";
-const playersDef = "https://en106.grepolis.com/data/player_kills_def.txt";
-const playersAtt = "https://en106.grepolis.com/data/player_kills_att.txt";
-const alliance = "https://en106.grepolis.com/data/alliances.txt";
 const Data = require("./Data.js");
 
 
@@ -15,13 +10,18 @@ return rows.map(function (row) {
 return row.split(",");
 	});
 };
-	snekfetch.get(alliance).then(r => { let allianceData = csvToArray(r.text);
-	snekfetch.get(players).then(r => { let playerData = csvToArray(r.text);
-	snekfetch.get(playersFight).then(t => { let playerFightData = csvToArray(t.text);
-	snekfetch.get(playersDef).then(t => { let playerDefData = csvToArray(t.text);
-	snekfetch.get(playersAtt).then(t => { let playerAttData = csvToArray(t.text);
-
 	module.exports.run = async(bot, message, args) => {
+
+		let pData = Data.playerData;
+		playerData = pData.playerData;
+		let aData = Data.allianceData;
+		allianceData = aData.allianceData;
+		let pfData = Data.playerFightData;
+		playerFightData = pfData.playerFightData;
+		let paData = Data.playerAttData;
+		playerAttData = paData.playerAttData;
+		let pdData = Data.playerDefData;
+		playerDefData = pdData.playerDefData;
 
 
 	 								playerData.sort(function(a,b) {
@@ -81,7 +81,7 @@ return row.split(",");
 	              }
 	            }
 
-							for (var i = 0; i < 12; i++) {
+							for (var i = 0; i < 13; i++) {
 							 for (var j = 0; j < allianceData.length; j++) {
 								 if(T12AllyID[i] === allianceData[j][0]){
 									 T12Ally.push(allianceData[j][1]);
@@ -95,7 +95,7 @@ return row.split(",");
 	 	for (var k = 1; k < 13; k++) {
 			playerData[k][1] = playerData[k][1].replace(/[+]/g, " ");
 			playerData[k][1] = playerData[k][1].replace(/%27/g, "'");
-			T12Ally[k-1] = 	T12Ally[k-1].replace(/[+]/g, " ");
+			T12Ally[k-1] = T12Ally[k-1].replace(/[+]/g, " ");
 			T12Ally[k-1] = T12Ally[k-1].replace(/%27/g, "'");
 
 			var finalA = Math.floor(Math.random() * (16777215 - 1)) + 1;
@@ -104,7 +104,7 @@ return row.split(",");
 	 	message.channel.send({embed: {
 	 			color: finalA,
 			title: "Top Twelve Players!",
-	     description: "\nNm: " + k + "\n" + playerData[k][1],
+	     description: "Nm: " + k + "\n" + playerData[k][1],
 	     fields: [{
 	         name: "Points", value: "Rank: " + playerData[k][5] + "\nPoints: " + playerData[k][3]
 	       },
@@ -122,13 +122,6 @@ return row.split(",");
 	 }
 	}
 
-	} );
-	} );
-	} );
-} );
-
-	//playerData ends
-	} );
 module.exports.help = {
   name: "T12PlayerData"
 }

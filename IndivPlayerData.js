@@ -1,11 +1,5 @@
 const Discord = require("discord.js");
 const snekfetch = require("snekfetch");
-const players = "https://en106.grepolis.com/data/players.txt";
-const playersFight = "https://en106.grepolis.com/data/player_kills_all.txt";
-const playersDef = "https://en106.grepolis.com/data/player_kills_def.txt";
-const playersAtt = "https://en106.grepolis.com/data/player_kills_att.txt";
-const alliance = "https://en106.grepolis.com/data/alliances.txt";
-const conquestData = "https://en106.grepolis.com/data/conquers.txt";
 const Data = require("./Data.js");
 
 
@@ -17,15 +11,30 @@ return row.split(",");
 	});
 };
 
+function numberNotate(num) {
+    var str = num.toString().split('.');
+    if (str[0].length >= 5) {
+        str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+    }
+    if (str[1] && str[1].length >= 5) {
+        str[1] = str[1].replace(/(\d{3})/g, '$1 ');
+    }
+    return str.join('.');
+}
 
 	module.exports.run = async(bot, message, args) => {
-
-		snekfetch.get(alliance).then(r => { let allianceData = csvToArray(r.text);
-		snekfetch.get(players).then(r => { let playerData = csvToArray(r.text);
-		snekfetch.get(playersFight).then(t => { let playerFightData = csvToArray(t.text);
-		snekfetch.get(playersDef).then(t => { let playerDefData = csvToArray(t.text);
-		snekfetch.get(playersAtt).then(t => { let playerAttData = csvToArray(t.text);
-		snekfetch.get(conquestData).then(t => {let conquestData = csvToArray(t.text);
+		let pData = Data.playerData;
+		playerData = pData.playerData;
+		let aData = Data.allianceData;
+		allianceData = aData.allianceData;
+		let pfData = Data.playerFightData;
+		playerFightData = pfData.playerFightData;
+		let paData = Data.playerAttData;
+		playerAttData = paData.playerAttData;
+		let pdData = Data.playerDefData;
+		playerDefData = pdData.playerDefData;
+		let cData = Data.conquestData;
+		conquestData = cData.conquestData;
 
 		var test;
 		test =  message.content;
@@ -46,7 +55,6 @@ return row.split(",");
 		var playerID = 0;
 		//code for testing whether the message correlates with a players name in the server (needs to be hard-coded as of now)
 
-		console.log(test);
 		for (var j = 0; j < playerData.length; j++) {
 			if(test === playerData[j][1]){
 				playerDetails = playerData[j];
@@ -54,8 +62,6 @@ return row.split(",");
 			}
 			continue;
 		}
-		console.log(playerData.length);
-		console.log(playerDetails);
 		// for getting the players def stats, overall, rank
 
 			for (var j = 0; j < playerDefData.length; j++) {
@@ -142,10 +148,10 @@ return row.split(",");
 			title: playerDetails[1] + " from " +  playerAlly[0],
 	     fields: [{
 	         name: "Points",
-					 value: "Rank: " + playerDetails[4] + "  -  Points: " + playerDetails[3]
+					 value: "Rank: " + playerDetails[4] + "  -  Points: " + numberNotate(playerDetails[3])
 	       },	{
 	 					name: "Battle Points",
-						value: "Total BP Rank: " + playerFightRank + "  -  Points: " + playerFight + "bp\nABP Rank: " + playerAttRank + "  -  Points: " + playerAtt + "bp\nDBP Rank: " + playerDefRank + "  -  Points: " + playerDef + "bp",
+						value: "Total BP Rank: " + playerFightRank + "  -  Points: " + numberNotate(playerFight) + "bp\nABP Rank: " + playerAttRank + "  -  Points: " + numberNotate(playerAtt) + "bp\nDBP Rank: " + playerDefRank + "  -  Points: " + numberNotate(playerDef) + "bp",
 	  			 	}, {
 	 			        name: "Cities",
 								value: playerDetails[5],
@@ -166,7 +172,6 @@ return row.split(",");
 	 							},
 						],
 	   } });
-	 });});});});});});
 
 }
 

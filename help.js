@@ -24,7 +24,7 @@ module.exports.run = async(bot, message, args) => {
              {
                  name: "To Be Done", value: "!Follow {alliance/player, name} {name}\n!RemoveFollow {alliance/player} {name}\n!Territories\n!Territory {Ocean}\n!CompareA {alliance, alliance2, alliance3... etc} vs {alliance, alliance2, alliance3}\n!CompareP {player, player2, player3... etc} vs {player, player2, player3}"
                },{
-                 name: "Utility", value: "!Math, operational signs are, +, -, *, /, %, ^, =?"
+                 name: "Utility", value: "!Math, operational signs are, +, -, *, /, %, ^, =?\n!Setup {worldID}"
                }
               ],
        } });

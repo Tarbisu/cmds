@@ -11,6 +11,18 @@ return row.split(",");
 	});
 };
 
+function numberNotate(num) {
+    var str = num.toString().split('.');
+    if (str[0].length >= 5) {
+        str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+    }
+    if (str[1] && str[1].length >= 5) {
+        str[1] = str[1].replace(/(\d{3})/g, '$1 ');
+    }
+    return str.join('.');
+}
+
+
 	module.exports.run = async(bot, message, args) => {
 		let aData = Data.allianceData;
 		allianceData = aData.allianceData;
@@ -93,11 +105,11 @@ return row.split(",");
 	     description: "\nNm: " + k + "\n" + allianceData[k][1],
 	     fields: [{
 	         name: "Points",
-					 value: "Rank: " + allianceData[k][5] + "\nPoints: " + allianceData[k][3]
+					 value: "Rank: " + allianceData[k][5] + "\nPoints: " + numberNotate(allianceData[k][2])
 	       },
 						{
 	  					name: "Battle Points",
-							value: "Fighting: " + T12FightRank[k - 1] + "  -  " + T12Fight[k - 1] + "bp\n" + "Attacking: " + T12AttRank[k - 1] + "  -  " + T12Att[k - 1] + "bp\n"  +   "Defending: " + T12DefRank[k - 1] + "  -  " + T12Def[k - 1] + "bp"
+							value: "Fighting: " + T12FightRank[k - 1] + "  -  " + numberNotate(T12Fight[k - 1]) + "bp\n" + "Attacking: " + T12AttRank[k - 1] + "  -  " + numberNotate(T12Att[k - 1]) + "bp\n"  +   "Defending: " + T12DefRank[k - 1] + "  -  " + numberNotate(T12Def[k - 1]) + "bp"
 
 	  				}, {
 	 			        name: "Cities",

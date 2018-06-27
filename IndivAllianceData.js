@@ -10,6 +10,37 @@ return row.split(",");
 	});
 };
 
+function numberNotate(num) {
+    var str = num.toString().split('.');
+    if (str[0].length >= 5) {
+        str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+    }
+    if (str[1] && str[1].length >= 5) {
+        str[1] = str[1].replace(/(\d{3})/g, '$1 ');
+    }
+    return str.join('.');
+}
+
+function add(a, b) {
+	a = parseInt(a);
+	b = parseInt(b);
+	return a + b;
+}
+
+function returnUnique(array){
+	var tempArray = {};
+	for (var i = 0; i < array.length; i++) {
+		var x = array[i];
+		tempArray[x] = (x in tempArray) ? tempArray[x] + 1 : 1;
+	}
+	var i = 0;
+	var rArray = [];
+	for (x in tempArray){
+		rArray[i++] = [x, tempArray[x] ];
+	}
+	rArray.sort();
+	return rArray;
+}
 
 	module.exports.run = async(bot, message, args) => {
 		let pData = Data.playerData;
@@ -102,13 +133,106 @@ return row.split(",");
 			continue;
 		}
 
+		allyNameT=[];
+		allyNameL=[];
+
+		for (var j = 0; j < allyTakes.length; j++) {
+			allyNameT.push(allyTakes[j][5]);
+		}
+		for (var j = 0; j < allyLosses.length; j++) {
+			allyNameL.push(allyLosses[j][4]);
+		}
+
+		var Takes = returnUnique(allyNameT);
+		var Losses = returnUnique(allyNameL);
+
+		for (var i = 0; i < Takes.length; i++) {
+			for (var j = 0; j < allianceData.length; j++) {
+				if (Takes[i][0] === allianceData[j][0]) {
+					Takes[i][0] = allianceData[j][1];
+					console.log( "Takes" + allianceData[j][1]);
+					break;
+				}
+			}
+		}
+		for (var i = 0; i < Losses.length; i++) {
+			for (var j = 0; j < allianceData.length; j++) {
+				if (Losses[i][0] === allianceData[j][0]) {
+					Losses[i][0] = allianceData[j][1];
+					console.log( "Losses" + allianceData[j][1]);
+					break;
+				}
+			}
+		}
+		Takes.sort(function(a,b) {
+			return a[1]-b[1]
+	});
+		Losses.sort(function(a,b) {
+		return a[1]-b[1]
+	});
+
+for (var i = 0; i < Takes.length; i++) {
+	if (Takes[i][0] === undefined || Takes[i][0] === null || Takes[i][0] === ""){
+		Takes[i].splice(i,1);
+		continue;
+	}
+	else{
+	Takes[i][0] = Takes[i][0].replace(/[+]/g, " ");
+	Takes[i][0] = Takes[i][0].replace(/%27/g, "'");
+	}
+}
 
 
+for (var i = 0; i < Losses.length; i++) {
+	if (Losses[i][0] === undefined || Losses[i][0] === null || Losses[i][0] === ""){
+		Losses[i].splice(i,1);
+		continue;
+	}
+	else{
+	Losses[i][0] = Losses[i][0].replace(/[+]/g, " ");
+	Losses[i][0] = Losses[i][0].replace(/%27/g, "'");
+	}
+}
+
+var conqs = [];
+
+for (var i = 0; i < Takes.length; i++) {
+			if (Takes[i][0] === undefined) {
+				continue;
+			}
+		for (var j = 0; j < Losses.length; j++) {
+				if (Takes[i][0] === Losses[j][0]){
+					conqs.push({total: add(Takes[i][1], Losses[j][1]), name: Takes[i][0], takes: Takes[i][1], losses: Losses[j][1]});
+					Takes.splice(i, 1);
+					Losses.splice(j, 1);
+				}
+			}
+	}
+
+for (var i = 0; i < Takes.length; i++) {
+	conqs.push({total: add(Takes[i][1], 0), name: Takes[i][0], takes: Takes[i][1], losses: 0});
+}
+for (var i = 0; i < Losses.length; i++) {
+	conqs.push({total: add(Losses[i][1], 0), name: Losses[i][0], takes: 0, losses: Losses[i][1]});
+}
+
+for (var i = 0; i < conqs.length; i++) {
+	if (conqs[i].total === NaN || conqs[i].name === undefined){
+		conqs.splice(i);
+	}
+}
+
+conqs.sort(function (a, b) {
+  return a.total - b.total;
+});
+
+
+console.log(conqs);
 		if(allianceDetails[1] == null){
 			message.channel.send("Invalid alliance Name (Remember this search is; Case Sensitive, Spaces must be replaced with '+', and ' must be replaced with a %27)");
 		}
 
-		allianceDetails[1] = 	allianceDetails[1].replace(/[+]/g, " ");
+		allianceDetails[1] = allianceDetails[1].replace(/[+]/g, " ");
 		allianceDetails[1] = allianceDetails[1].replace(/%27/g, "'");
 
 		var finalA = Math.floor(Math.random() * (16777215 - 1)) + 1;
@@ -123,11 +247,18 @@ return row.split(",");
 					 "inline": true
 	       },	{
 						name: "Points",
-						value: "Points: " + allianceDetails[2] + "\nTotal Points: " + allianceFight + " bp\nAttacker Points: " + allianceAtt + " bp\nDefender Points: " + allianceDef + " bp",
+						value: "Points: " + numberNotate(allianceDetails[2]) + "\nBattle Points: " + numberNotate(allianceFight) + " bp\nAttacker Points: " + numberNotate(allianceAtt) + " bp\nDefender Points: " + numberNotate(allianceDef) + " bp",
+						"inline": true
+					},{
+						name: "Stats per Player",
+						value: "Points: " + numberNotate(Math.round(allianceDetails[2]/allianceDetails[4])) + "\nBattle Points: " + numberNotate(Math.round(allianceFight/allianceDetails[4])) + "bp\nAttacker Points: " + numberNotate(Math.round(allianceAtt/allianceDetails[4])) + "bp\nDefender Points: " + numberNotate(Math.round(allianceDef/allianceDetails[4])) + "bp",
 						"inline": true
 					},{
 									name: "Conquests",
-									value: "Taken Cities: " + allyTakes.length + "\n" + "Lost Cities: " + allyLosses.length
+									value: "Taken Cities: " + allyTakes.length + "\nLost Cities: " + allyLosses.length,
+								},{
+									name: "Ratios",
+									value: "Points to BP: " + numberNotate((Math.round(allianceDetails[2]/allianceFight*10))/10) + "\nTaken Cities per Lost City: " + Math.round(allyTakes.length / allyLosses.length) + "\nAverage Points per City: " + numberNotate(Math.round(allianceDetails[2] / allianceDetails[3])),
 								},
 								{
 		 								name: "Handovers",
@@ -142,6 +273,19 @@ return row.split(",");
 											name: "Players",
 											value: allianceDetails[4],
 											"inline": true
+												},
+												{
+											name: "War Against: " + conqs[conqs.length-1].name,
+											value: "Taken Cities: " + conqs[conqs.length-1].takes + "  -  Lost Cities: " + conqs[conqs.length-1].losses,
+											"inline": true
+										},{
+											name: "War Against: " + conqs[conqs.length-2].name,
+											value: "Taken Cities: " + conqs[conqs.length-2].takes + "  -  Lost Cities: " + conqs[conqs.length-2].losses,
+											"inline": true
+										},{
+											name: "War Against: " + conqs[conqs.length-3].name,
+											value: "Taken Cities: " + conqs[conqs.length-3].takes + "  -  Lost Cities: " + conqs[conqs.length-3].losses,
+											"inline": true
 										},
 
 						],
@@ -151,6 +295,7 @@ return row.split(",");
 
 
 }
+
 
 
 module.exports.help = {
